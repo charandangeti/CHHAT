@@ -1,0 +1,210 @@
+<div></div>
+<div></div>
+<div style="height: 250px;"></div>
+<div></div>
+<div>
+  <div></div>
+  <h1>Chat App</h1>
+  <input type="text" id="user_name" class="form-control" placeholder="User Name" style="font-size: 20px;">
+  <button onclick="addUser()" style="font-size: 20px;" >Log in</button>
+</div>
+<style>*,
+	*::before,
+	*::after {
+	  box-sizing: border-box;
+	}
+	
+	body,
+	html {
+	  font-family: "Poppins", sans-serif;
+	  -webkit-text-size-adjust: 100%;
+	  -webkit-tap-highlight-color: transparent;
+	  -webkit-font-smoothing: antialiased;
+	  text-rendering: optimizeLegibility;
+	  font-size: 12pt;
+	  font-weight: 400;
+	  color: black;
+	}
+	
+	body {
+	  position: relative;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  justify-content: center;
+	  height: 100vh;
+	  overflow: hidden;
+	  background: conic-gradient(
+		from 360deg at 50% 50%,
+		#00e5ff,
+		#00ecfa,
+		#00f1ee,
+		#00f6dc,
+		#00fac3,
+		#00fda5,
+		#00ff81,
+		#00ff55
+	  );
+	  margin: 0;
+	  padding: 0;
+	}
+	
+	div {
+	  position: absolute;
+	  top: 50%;
+	  left: 0;
+	  background: conic-gradient(
+		from 360deg at 50% 50%,
+		#2f334f,
+		#354c70,
+		#326790,
+		#2184ae,
+		#00a2c9,
+		#00c1de,
+		#00e0ee,
+		#00fff7
+	  );
+	  width: 100%;
+	  height: 100%;
+	  animation: dial 10s linear infinite;
+	  z-index: 4;
+	}
+	
+	div:nth-child(2) {
+	  top: 0;
+	  animation: dial 8s linear infinite;
+	  z-index: 3;
+	  background: conic-gradient(
+		from 360deg at 50% 50%,
+		#1f0a4f,
+		#003283,
+		#0057ad,
+		#007cc5,
+		#00a0c6,
+		#00c2b2,
+		#00e38d,
+		#5eff5e
+	  );
+	}
+	
+	div:nth-child(3) {
+	  animation: dial 6s linear infinite;
+	  z-index: 2;
+	  background: conic-gradient(
+		from 360deg at 50% 50%,
+		#00f7ff,
+		#00dcd6,
+		#00c1af,
+		#00a789,
+		#008c65,
+		#007344,
+		#005a24,
+		#004204
+	  );
+	}
+	
+	div:nth-child(4) {
+	  top: 0;
+	  animation: dial 4s linear infinite;
+	  z-index: 1;
+	  background: conic-gradient(
+		from 360deg at 50% 50%,
+		#3cff36,
+		#00e561,
+		#00ca79,
+		#00ae85,
+		#009286,
+		#00757b,
+		#005a67,
+		#113f4a
+	  );
+	}
+	
+	div:nth-child(5) {
+	  position: relative;
+	  width: 300px;
+	  height: 80%;
+	  border-radius: 20px;
+	  background: #000000bb;
+	  z-index: 6;
+	  backdrop-filter: blur(12px);
+	  animation: unset;
+	  top: unset;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  justify-content: space-evenly;
+	  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+	}
+	
+	@media (max-height: 30px) {
+	  div:nth-child(5) {
+		height: 90%;
+	  }
+	}
+	
+	div:nth-child(5) div {
+	  position: relative;
+	  animation: unset;
+	  top: unset;
+	  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAllBMVEUlttP///9w2vLx8fEhstH5/f1nyt0kttJTxdv0+vtNy+Nw2/Dz8vHb7fB22/HQ7PFOyeRBwt1c0Or4+Pj18vItu9XU7/U4utcLsNG23+jh8/hfyN4vvdSn3ezl9/mZ2ehyy9zQ5u1k1+2R1uXp8PGy4u/B6fGk4Omj2eRmxNy+5/JTv9jA4euE0OHp8fDX8PaI3vCS2uZC2Wa6AAAEFElEQVR4nO3c23aiMBiGYQo4wRLckorWXd1NrVrb+7+5SdgVKtKEWWol37M6B7RzoO/6iYigYQAAAAAAAAAAAABcE7n1A7gTYSeCWjKQSQFBLQAAAAAAAAAAAAAAgHvH8ImPNEI0/YCMPf9R9TzWMRYx2GTaUNYczXTcD9nmoZo37WIRMqvY6qE/t2/96K+KLztsVLWVP9RrtHgsp1mxleW/sFs//iurGqtvWbStWSxiVIvFW2kYq9pkiVaIpdAKsaQ0rDhW95tbP5sLqxIrmivOc3NMd9Gt9axViJW2ol7LzHPdTp3fL6rHSlsVxTLNOr9hVI7Vp2ks/yQW163xaKnG+pqrwliu+XjrZ3RBirGyrc7Equ9gKcbKtToXq761lGLlW2GySlv5lHsvjeVqFGu6Xs7ajXTzabKcHNNWq+HyMPGoRSkmi1sPgiCw5/FvmkubbyZnUvveVmyyIcVuKGwCWwjm0Wwtw80g+BvN1U6EtAN7TxGLvz92oli2HX6EMTLircFUHIu+xn8Mtpgs7hjHsYNluE8m6ew3/jpIt8nmwPMR6+EpiWMfxOYsqROs+TGDn46d0cYCz18Kk/0umGVWMLFX8jp0nmwyD7shF/bg/0h4uNAcxHV2K1Fmn6xZByzw4WgNxMtdEEziF0cj7GPswzXq/RC9ODoeYoVGc2KT7jo9lNiRwNi+xOv5+ysfNXLwcJyVHD1M28fMdvO48VZ+erJv9bL3rNLzWVrFOpE51yfy+LktxMq3skoglnwrxFJohVjn1yvEKov1w1whlkorxFJohVgKrRBLoZV6rHv/lKw4llSrKrHuu1ZhLLlW2A0VWlmWbrEKrlaWbnV6yZF2saRbiSv/dItltKu2om/fW9U/1rzaPmjR1YdusXiuz0ZhK1rKp6vPk1b1j2UYf9bHkZBv5bVLrT/MkyVLh1jEYMJz7hrItlsQI07iJmmKYp2rVZeK0fNwsnPVbpmue65WUaf493W+pjTLybWK7gP4YbaKYtVlgso5mX2w4KJtKXW4a0DqCaSx/E3VVnyy7j+WlCQWHTpVW4nJuvXTuA4nacXYonKsOt+OkuUkrYjdMcuW94IFPr4vrNaXwec4cStxRrOzcFutpMF3BfWi/2s+3v3ZUFmOuGZtGH5tCmHssVMqv6Muol8yfb5yxUnmij/h8Oc8w2C5WL3c33TgUH9IpL8EhC0y+2NPn0oxxx+q3LU77uVjXexx/Uo7pVZ8tnrZWBd6UL8VU70b/KuWfrHU8XULsWSRcXyuBrFkxG+MEEsGny3Ekheu8oglSRydIpYkwnqIJY8tEEsaGXe0e7vzHxhiKUAsBWilALEAAAAAAAAAAAAAAAAAAADgtxDXMWh3b05VhBHEAgAAAAAAAAAAgOv6BzTpYNiUPSAiAAAAAElFTkSuQmCC");
+	  width: 250px;
+	  height: 40%;
+	  background-repeat: no-repeat;
+	  background-size: cover;
+	  background-position: center;
+	  border-radius: 20px;
+	  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+	  margin-bottom: 10px;
+	  z-index: 999;
+	}
+	
+	div:nth-child(5) h1,
+	div:nth-child(5) p {
+	  color: white;
+	  padding: 0;
+	  margin: 0;
+	  line-height: 0;
+	}
+	
+	div:nth-child(5) h1 {
+	  font-size: 20pt;
+	}
+	
+	div:nth-child(5) a {
+	  text-decoration: none;
+	  background: white;
+	  color: black;
+	  width: 100px;
+	  height: 30px;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  justify-content: center;
+	  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+	  border-radius: 5px;
+	  line-height: 0;
+	  margin: 0;
+	  padding: 0;
+	  transition: all 0.3s ease-in-out;
+	}
+	
+	div:nth-child(5) a:hover {
+	  transform: translateY(3px);
+	  transition: all 0.3s ease-in-out;
+	}
+	
+	div:nth-child(5) a:active {
+	  transform: scale(0.9);
+	}
+	
+	@keyframes dial {
+	  0% {
+		transform: rotateY(0deg);
+	  }
+	  100% {
+		transform: rotateY(360deg);
+	  }
+	}
+	</style>
+	<script src="kwitter.js"></script>
